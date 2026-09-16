@@ -27,3 +27,13 @@ SELECT User, Host, Password_expired FROM user;
 EXIT;
 sudo mysql -u root -e "USE mysql; SHOW TABLES;" | tee /home/project/mysql_tables.txt
 
+# from shell recording into a file
+sudo service mysql start
+sudo mysql -u root
+USE mysql;
+tee /home/projects/mysql/list_tables.txt;
+SHOW TABLES;
+notee;
+EXIT;
+USE my sql
+
