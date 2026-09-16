@@ -1,0 +1,29 @@
+# Commands
+
+# install
+sudo apt update
+sudo apt install mysql-server -y
+sudo service mysql status
+
+# start
+sudo service mysql start
+
+# access shell
+sudo mysql -u root
+
+# exit shell
+EXIT;
+
+# from terminal "show databases" and record output in file -e is needed to execute at command line
+sudo mysql -u root -e "SHOW DATABASES;" | tee /home/project/system_databases.txt
+
+# from terminal "list tables for a certain database"
+
+# from shell explore database
+sudo mysql -u root
+USE mysql;
+DESCRIBE user;
+SELECT User, Host, Password_expired FROM user;
+EXIT;
+sudo mysql -u root -e "USE mysql; SHOW TABLES;" | tee /home/project/mysql_tables.txt
+
