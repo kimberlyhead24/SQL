@@ -1,0 +1,23 @@
+SHOW DATABASES;
+CREATE DATABASE hello_world;
+# From command line aternate method
+  sudo mysqladmin -u root create hello_world2
+  
+DROP DATABASE hello_world;
+# From command line alternate method
+sudo mysqladmin -u root drop hello_world2
+
+# start using a certain database
+USE Hello_World;
+SHOW TABLES;
+
+#metadate
+SELECT VERSION():
+SELECT DATABASE();
+SELECT USER();
+SHOW STATUS; # view all server status indicators
+SHOW VARIABLES; #view all server configuration variables
+SHOW VARIABLES LIKE '%buffer%'; #see variables related to the buffer pool
+SHOW STATUS LIKE 'Questions'; #check the number of queries that have been executed
+SHOW VARIABLES LIKE 'max_allowed_packet'; #check important configuration settings like the maximum allowed packet size
+  
