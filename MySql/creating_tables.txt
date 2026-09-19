@@ -1,0 +1,117 @@
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    description TEXT,
+    weight FLOAT,
+    in_stock BOOLEAN,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+### Let's break down this table structure:
+
+id: An auto-incrementing integer that serves as the primary key
+name: A variable-length string that cannot be NULL
+price: A precise decimal number with 10 total digits and 2 decimal places
+description: A text field for longer descriptions
+weight: A floating-point number for approximate decimal values
+in_stock: A boolean field (TRUE/FALSE)
+created_at: Automatically stores the creation timestamp
+last_updated: Automatically updates when the record changes
+###
+
+CREATE TABLE categories (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(50) NOT NULL UNIQUE,
+    description VARCHAR(200),
+    active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE inventory_items (
+    item_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_id INT,
+    sku VARCHAR(20) NOT NULL UNIQUE,
+    item_name VARCHAR(100) NOT NULL,
+    quantity INT NOT NULL CHECK (quantity >= 0),
+    unit_price DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+);
+
+###
+PRIMARY KEY: Ensures unique identification of each record
+UNIQUE: Prevents duplicate values in a column
+NOT NULL: Ensures a column cannot contain NULL values
+CHECK: Validates data before it's inserted
+FOREIGN KEY: Ensures referential integrity between tables
+DEFAULT: Provides a default value if none is specified
+###
+
+SHOW CREATE TABLE inventory_items;
+# Shows complete constraints with CREATE TABLE
+
+ALTER TABLE products
+ADD COLUMN manufacturer VARCHAR(100) AFTER name;
+
+ALTER TABLE products
+MODIFY COLUMN description VARCHAR(500) NOT NULL DEFAULT 'No description available';
+
+ALTER TABLE products
+CHANGE COLUMN weight product_weight DECIMAL(8,2);
+# Change the name of a column and changes data type
+
+ALTER TABLE products
+DROP COLUMN in_stock;
+
+ALTER TABLE products
+ADD INDEX idx_name_manufacturer (name, manufacturer);
+
+# This command creates a composite index on the name and manufacturer columns.
+
+DESCRIBE products;
+SHOW INDEX FROM products;
+# See what you have done
+
+SHOW TABLE STATUS FROM store;
+###
+This command shows information about each table in the database, including:
+
+Storage engine
+Row format
+Number of rows
+Average row length
+Data length
+Index length
+###
+
+SHOW FULL COLUMNS FROM products;
+###
+This provides additional information about each column, including:
+
+Column type
+Collation
+Privileges
+Comments
+###
+
+SHOW INDEX FROM products;
+
+SELECT
+    TABLE_NAME,
+    ENGINE,
+    TABLE_ROWS,
+    AVG_ROW_LENGTH,
+    DATA_LENGTH,
+    INDEX_LENGTH
+FROM
+    INFORMATION_SCHEMA.TABLES
+WHERE
+    TABLE_SCHEMA = 'store';
+# Information from the Information schema
+
+SELECT DATABASE();
+SHOW TABLES;
+### To safely drop a table, we can use the IF EXISTS clause:
+DROP TABLE IF EXISTS inventory_items;
+# Note that we need to drop tables with foreign key constraints first. If we tried to drop the categories table first, we would get an error because inventory_items references it.
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS products;
