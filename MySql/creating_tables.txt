@@ -115,3 +115,17 @@ DROP TABLE IF EXISTS inventory_items;
 # Note that we need to drop tables with foreign key constraints first. If we tried to drop the categories table first, we would get an error because inventory_items references it.
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS products;
+
+
+
+### Practice
+CREATE TABLE bookstore (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    price DECIMAL(5,2),
+    publication_date DATE,
+    page_count INT,
+    description LONGTEXT,
+    quantity_in_stock INT CHECK (quantity_in_stock >= 0)
+);
+DESCRIBE books;
